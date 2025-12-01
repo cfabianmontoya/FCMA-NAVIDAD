@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Navidad - Red Descartes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&family=Cinzel+Decorative:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: radial-gradient(ellipse at top, #1e293b 0%, #0B1026 50%, #000000 100%);
+            color: white;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #app {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0.5rem;
+        }
+
+        /* Moon glow */
+        .moon {
+            position: absolute;
+            top: 2.5rem;
+            right: 2.5rem;
+            width: 6rem;
+            height: 6rem;
+            background: rgba(254, 243, 199, 0.2);
+            border-radius: 50%;
+            filter: blur(40px);
+            pointer-events: none;
+        }
+
+        /* Snow animation */
+        .snow-container {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            filter: blur(1px);
+            animation: snow linear infinite;
+        }
+
+        @keyframes snow {
+            0% {
+                transform: translateY(-10px);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh);
+                opacity: 0.3;
+            }
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.6;
+                transform: scale(0.9);
+            }
+        }
+
+        @keyframes sway {
+
+            0%,
+            100% {
+                transform: rotate(-1deg);
+            }
+
+            50% {
+                transform: rotate(1deg);
+            }
+        }
+
+        @keyframes flash-1 {
+
+            0%,
+            100% {
+                opacity: 1;
+                box-shadow: 0 0 10px currentColor;
+            }
+
+            50% {
+                opacity: 0.4;
+                box-shadow: 0 0 2px currentColor;
+            }
+        }
+
+        @keyframes flash-2 {
+
+            0%,
+            100% {
+                opacity: 0.4;
+                box-shadow: 0 0 2px currentColor;
+            }
+
+            50% {
+                opacity: 1;
+                box-shadow: 0 0 10px currentColor;
+            }
+        }
+
+        @keyframes flash-3 {
+
+            0%,
+            100% {
+                opacity: 0.7;
+            }
+
+            33% {
+                opacity: 1;
+            }
+
+            66% {
+                opacity: 0.3;
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            width: 100%;
+            max-width: 56rem;
+            padding: 0.5rem 1rem;
+            flex-shrink: 0;
+        }
+
+        h2 {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: clamp(0.875rem, 3vw, 1.5rem);
+            font-weight: 700;
+            background: linear-gradient(to right, #fde68a, #fbbf24, #fde68a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+            margin-bottom: 0.25rem;
+            animation: pulse 4s infinite;
+        }
+
+        h1 {
+            font-family: 'Mountains of Christmas', cursive;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 700;
+            background: linear-gradient(to right, #fca5a5, #86efac, #fef08a, #86efac, #fca5a5);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 2px 8px rgba(252, 165, 165, 0.8)) drop-shadow(0 0 20px rgba(134, 239, 172, 0.6));
+            animation: pulse 2s infinite;
+            letter-spacing: 0.05em;
+        }
+
+        .subtitle {
+            color: rgba(191, 219, 254, 0.8);
+            font-family: 'Cinzel Decorative', serif;
+            margin-top: 0.5rem;
+            font-size: clamp(0.625rem, 1.5vw, 0.875rem);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            border-top: 1px solid rgba(59, 130, 246, 0.3);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 0.25rem 0.5rem;
+            display: inline-block;
+        }
+
+        /* Tree container */
+        main {
+            position: relative;
+            width: 100%;
+            max-width: 40rem;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            min-height: 0;
+        }
+
+        .tree-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-width: 600px;
+            max-height: 100%;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tree-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-height: 100%;
+            aspect-ratio: 4/5;
+        }
+
+        .tree-svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 25px 25px rgba(0, 0, 0, 0.5));
+            animation: sway 6s infinite ease-in-out alternate;
+        }
+
+        .ornaments-container {
+            position: absolute;
+            inset: 0;
+            z-index: 40;
+            animation: sway 6s infinite ease-in-out alternate;
+        }
+
+        .light {
+            position: absolute;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .ornament {
+            position: absolute;
+            z-index: 50;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .ornament:hover {
+            transform: translate(-50%, -50%) scale(1.1) !important;
+        }
+
+        .ball {
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: inset -3px -3px 8px rgba(0, 0, 0, 0.4), 2px 2px 5px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 0.625rem;
+            z-index: 10;
+            font-family: monospace;
+            padding: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        /* Popup */
+        .popup-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            padding: 1rem;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .popup-content {
+            position: relative;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 28rem;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .popup-close {
+            position: absolute;
+            top: -1rem;
+            right: -1rem;
+            background: #dc2626;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: background 0.2s;
+        }
+
+        .popup-close:hover {
+            background: #b91c1c;
+        }
+
+        .popup-title {
+            font-size: 1.5rem;
+            font-family: 'Cinzel Decorative', serif;
+            color: #fcd34d;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .popup-image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.75rem;
+            border: 4px solid rgba(234, 179, 8, 0.3);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+            background: black;
+            margin-bottom: 1rem;
+        }
+
+        .popup-image {
+            width: 100%;
+            height: auto;
+            max-height: 350px;
+            object-fit: cover;
+            transition: transform 0.7s;
+        }
+
+        .popup-image-container:hover .popup-image {
+            transform: scale(1.1);
+        }
+
+        .popup-text-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            text-align: center;
+            border: 4px double rgba(239, 68, 68, 0.5);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            background: rgba(127, 29, 29, 0.4);
+        }
+
+        .popup-emoji {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        .popup-message {
+            font-family: 'Mountains of Christmas', cursive;
+            font-weight: 700;
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: #fef3c7;
+            line-height: 1.2;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        .popup-caption {
+            color: rgba(255, 255, 255, 0.8);
+            font-style: italic;
+            font-weight: 300;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        .popup-button {
+            margin-top: 1.5rem;
+            padding: 0.5rem 1.5rem;
+            background: #15803d;
+            color: white;
+            border-radius: 9999px;
+            font-weight: 600;
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: background 0.2s;
+        }
+
+        .popup-button:hover {
+            background: #16a34a;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Icons */
+        .icon {
+            display: inline-block;
+            width: 1.5rem;
+            height: 1.5rem;
+            fill: currentColor;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="moon"></div>
+        <div class="snow-container" id="snow"></div>
+
+        <header>
+            <h2>La Fundación Centro Mariana de Alfabetización</h2>
+            <h1>Feliz Navidad</h1>
+            <p class="subtitle">Haz clic en las luces y regalos</p>
+        </header>
+
+        <main>
+            <div class="tree-container">
+                <div class="tree-wrapper">
+                    <svg viewBox="0 0 400 500" class="tree-svg">
+                        <defs>
+                            <radialGradient id="grad1" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
+                                <stop offset="0%" style="stop-color:#4ade80;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#14532d;stop-opacity:1" />
+                            </radialGradient>
+                            <radialGradient id="grad2" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
+                                <stop offset="0%" style="stop-color:#22c55e;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#14532d;stop-opacity:1" />
+                            </radialGradient>
+                            <radialGradient id="grad3" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
+                                <stop offset="0%" style="stop-color:#16a34a;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#064e3b;stop-opacity:1" />
+                            </radialGradient>
+                        </defs>
+                        <path d="M180,420 L220,420 L230,480 L170,480 Z" fill="#78350f" stroke="#451a03"
+                            stroke-width="2" />
+                        <path d="M50,420 Q200,450 350,420 Q380,380 320,320 Q200,350 80,320 Q20,380 50,420 Z"
+                            fill="url(#grad3)" />
+                        <path d="M80,330 Q200,360 320,330 Q340,280 290,230 Q200,260 110,230 Q60,280 80,330 Z"
+                            fill="url(#grad2)" />
+                        <path d="M110,240 Q200,270 290,240 Q300,180 200,40 Q100,180 110,240 Z" fill="url(#grad1)" />
+                    </svg>
+                    <div class="ornaments-container" id="ornaments"></div>
+                </div>
+            </div>
+        </main>
+
+        <footer>Hecho con magia navideña</footer>
+    </div>
+
+    <div id="popup" class="popup-overlay hidden">
+        <div class="popup-content">
+            <button class="popup-close" onclick="closePopup()">×</button>
+            <div id="popup-body"></div>
+            <div style="text-align: center;">
+                <button class="popup-button" onclick="closePopup()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Helper function to get image URL with fixed seed per prompt
+        const getImg = (prompt, seed) => `https://image.pollinations.ai/prompt/3d%20cartoon%20render%20christmas%20${encodeURIComponent(prompt)}?nologo=true&width=600&height=600&seed=${seed}`;
+
+        // Ornaments data - Todas las bolas ahora tienen imágenes con semillas fijas
+        const ORNAMENTS = [
+            // Estrella en la punta superior
+            { id: 'top-star', type: 'STAR', x: 47, y: 5, color: '#fbbf24', content: '¡Noche de Paz, Noche de Amor!', size: 1.8 },
+
+            // Sección superior del árbol (y: 20-35)
+            { id: '1', type: 'BALL', x: 48, y: 22, color: '#ef4444', content: 'cute reindeer', seed: 1001, size: 0.7 },
+            { id: '2', type: 'BELL', x: 54, y: 26, color: '#fde047', content: '¡Ding Dong! ¡La alegría ha llegado!', size: 0.9 },
+            { id: '3', type: 'BALL', x: 46, y: 30, color: '#60a5fa', content: 'snowman', seed: 1002, size: 0.7 },
+
+            // Sección media-alta (y: 35-50)
+            { id: '4', type: 'GIFT', x: 58, y: 38, color: '#d8b4fe', content: 'El mejor regalo eres tú.', size: 1 },
+            { id: '5', type: 'BALL', x: 40, y: 40, color: '#facc15', content: 'gingerbread man', seed: 1003, size: 0.8 },
+            { id: '6', type: 'CANDY', x: 50, y: 44, color: '#fecaca', content: 'Dulces deseos para un dulce año.', size: 0.9 },
+            { id: '7', type: 'BALL', x: 62, y: 46, color: '#4ade80', content: 'elf', seed: 1004, size: 0.7 },
+            { id: '8', type: 'BALL', x: 38, y: 48, color: '#ec4899', content: 'penguin wearing scarf', seed: 1005, size: 0.8 },
+
+            // Sección media (y: 50-65)
+            { id: '9', type: 'STAR', x: 35, y: 52, color: '#fef9c3', content: 'Que tu luz brille por siempre.', size: 1.1 },
+            { id: '10', type: 'BELL', x: 65, y: 54, color: '#fde047', content: 'Paz, amor y prosperidad.', size: 0.9 },
+            { id: '11', type: 'BALL', x: 48, y: 56, color: '#2dd4bf', content: 'polar bear', seed: 1006, size: 0.8 },
+            { id: '12', type: 'BALL', x: 56, y: 60, color: '#818cf8', content: 'santa claus', seed: 1007, size: 0.8 },
+            { id: '13', type: 'CANDY', x: 42, y: 62, color: '#ffffff', content: 'Magia en cada momento.', size: 0.9 },
+
+            // Sección media-baja (y: 65-78)
+            { id: '14', type: 'GIFT', x: 38, y: 68, color: '#f87171', content: '¡Feliz Navidad y Próspero Año!', size: 1 },
+            { id: '15', type: 'BALL', x: 60, y: 70, color: '#fb923c', content: 'christmas fireplace', seed: 1008, size: 0.7 },
+            { id: '16', type: 'BALL', x: 32, y: 72, color: '#dc2626', content: 'stocking', seed: 1009, size: 0.8 },
+            { id: '17', type: 'BALL', x: 68, y: 74, color: '#a78bfa', content: 'christmas tree', seed: 1010, size: 0.7 },
+            { id: '18', type: 'BELL', x: 50, y: 76, color: '#fde047', content: 'Alegría y bendiciones', size: 0.9 },
+
+            // Regalos en la base (y: 85-94)
+            { id: 'g1', type: 'GIFT', x: 30, y: 88, color: '#ef4444', content: '¡Amor para toda la familia!', size: 1.8 },
+            { id: 'g2', type: 'GIFT', x: 48, y: 90, color: '#3b82f6', content: 'Sorpresas mágicas te esperan.', size: 1.6 },
+            { id: 'g3', type: 'GIFT', x: 70, y: 88, color: '#22c55e', content: 'Un año lleno de éxitos.', size: 1.8 },
+            { id: 'g4', type: 'GIFT', x: 58, y: 93, color: '#eab308', content: 'Felicidad infinita.', size: 1.5 }
+        ];
+
+        // Generate snow
+        function createSnow() {
+            const container = document.getElementById('snow');
+            for (let i = 0; i < 50; i++) {
+                const flake = document.createElement('div');
+                flake.className = 'snowflake';
+                flake.style.left = `${Math.random() * 100}%`;
+                flake.style.opacity = 0.3 + Math.random() * 0.7;
+                flake.style.animationDuration = `${5 + Math.random() * 10}s`;
+                flake.style.animationDelay = `-${Math.random() * 10}s`;
+                container.appendChild(flake);
+            }
+        }
+
+        // Generate lights
+        function createLights() {
+            const container = document.getElementById('ornaments');
+            const colors = ['#f87171', '#fde047', '#93c5fd', '#ffffff', '#86efac'];
+            const animations = ['flash-1 2s infinite', 'flash-2 3s infinite', 'flash-3 1.5s infinite'];
+            const layers = [
+                { yMin: 15, yMax: 30, xMin: 40, xWidth: 20 },
+                { yMin: 30, yMax: 50, xMin: 30, xWidth: 40 },
+                { yMin: 50, yMax: 70, xMin: 20, xWidth: 60 },
+                { yMin: 70, yMax: 85, xMin: 15, xWidth: 70 }
+            ];
+
+            layers.forEach(layer => {
+                for (let i = 0; i < 8; i++) {
+                    const y = layer.yMin + Math.random() * (layer.yMax - layer.yMin);
+                    const spreadFactor = (y - layer.yMin) / (layer.yMax - layer.yMin);
+                    const currentWidth = layer.xWidth * (0.8 + 0.2 * spreadFactor);
+                    const x = 50 + (Math.random() - 0.5) * currentWidth;
+                    const size = 0.5 + Math.random() * 0.5;
+
+                    const light = document.createElement('div');
+                    light.className = 'light';
+                    light.style.left = `${x}%`;
+                    light.style.top = `${y}%`;
+                    light.style.width = `${size * 0.8}rem`;
+                    light.style.height = `${size * 0.8}rem`;
+                    light.style.color = colors[Math.floor(Math.random() * colors.length)];
+                    light.style.animation = animations[Math.floor(Math.random() * animations.length)];
+                    container.appendChild(light);
+                }
+            });
+        }
+
+        // Create ornament element
+        function createOrnament(data) {
+            const ornament = document.createElement('div');
+            ornament.className = 'ornament';
+            ornament.style.left = `${data.x}%`;
+            ornament.style.top = `${data.y}%`;
+            ornament.style.transform = `translate(-50%, -50%) scale(${data.size})`;
+            ornament.style.animation = `twinkle ${3 + Math.random() * 2}s infinite ease-in-out`;
+            ornament.style.animationDelay = `-${Math.random() * 2}s`;
+            ornament.onclick = () => showPopup(data);
+
+            let content = '';
+            switch (data.type) {
+                case 'BALL':
+                    ornament.innerHTML = `<div class="ball" style="background:${data.color}"></div>`;
+                    break;
+                case 'STAR':
+                    ornament.innerHTML = `<svg width="32" height="32" viewBox="0 0 24 24" fill="${data.color}" stroke="${data.color}" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+                    break;
+                case 'GIFT':
+                    const giftSize = data.y > 80 ? 48 : 24;
+                    ornament.innerHTML = `<svg width="${giftSize}" height="${giftSize}" viewBox="0 0 24 24" fill="none" stroke="${data.color}" stroke-width="2"><rect x="3" y="8" width="18" height="12" rx="1"/><path d="M12 8v13"/><path d="M19 12H5"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/></svg>`;
+                    break;
+                case 'CANDY':
+                    ornament.innerHTML = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="${data.color}" stroke-width="2"><path d="M5.7 21a2 2 0 0 1-3.5-2l8.6-14a6 6 0 0 1 10.4 6 2 2 0 1 1-3.464-2 2 2 0 1 0-3.464-2Z"/><path d="M17.75 7 15 2.1"/><path d="M10.9 4.8 13 9"/><path d="m7.9 9.7 2 4.4"/><path d="M4.9 14.7 7 18.9"/></svg>`;
+                    break;
+                case 'BELL':
+                    ornament.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="${data.color}" stroke="${data.color}" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>`;
+                    break;
+            }
+
+            return ornament;
+        }
+
+        // Show popup
+        function showPopup(data) {
+            const popup = document.getElementById('popup');
+            const body = document.getElementById('popup-body');
+
+            const isBall = data.type === 'BALL';
+
+            if (isBall) {
+                // Generar imagen con pollinations usando semilla fija
+                const imageUrl = getImg(data.content, data.seed);
+                body.innerHTML = `
+                    <h3 class="popup-title">Recuerdo Navideño</h3>
+                    <div class="popup-image-container">
+                        <img src="${imageUrl}" alt="Christmas Surprise" class="popup-image">
+                    </div>
+                    <p class="popup-caption">¡Felices Fiestas!</p>
+                `;
+            } else {
+                body.innerHTML = `
+                    <div class="popup-text-container">
+                        <span class="popup-emoji">🎄</span>
+                        <p class="popup-message">${data.content}</p>
+                    </div>
+                `;
+            }
+
+            popup.classList.remove('hidden');
+        }
+
+        // Close popup
+        function closePopup() {
+            document.getElementById('popup').classList.add('hidden');
+        }
+
+        // Close popup on overlay click
+        document.getElementById('popup').addEventListener('click', function (e) {
+            if (e.target === this) closePopup();
+        });
+
+        // Initialize
+        createSnow();
+        createLights();
+        const container = document.getElementById('ornaments');
+        ORNAMENTS.forEach(ornament => {
+            container.appendChild(createOrnament(ornament));
+        });
+    </script>
+</body>
+
+</html>
